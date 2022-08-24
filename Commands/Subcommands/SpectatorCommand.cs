@@ -1,5 +1,6 @@
 ﻿using Exiled.API.Features;
 using Exiled.CustomRoles;
+using Exiled.Permissions.Extensions;
 using CommandSystem;
 using Exiled.API.Features.Items;
 using System;
@@ -13,22 +14,25 @@ namespace GhostSpectatorReworked.Commands.Subcommands
 
         public string[] Aliases { get; } = { "spec" };
 
-        public string Description { get; } = "Makes the player a spectator again";
+        public string Description { get; } = GhostSpectator.instance.Translation.SpectatorCommandDescription;
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
             if (player != null)
             {
-                if (CustomRoleHandler.Get(99).Check(player))
+                if (!sender.CheckPermission("ghsp.spectator"))
                 {
-                    CustomRoleHandler.Get(99).RemoveRole(player);
+                    if (CustomRoleHandler.Get(99).Check(player))
+                    {
+                        CustomRoleHandler.Get(99).RemoveRole(player);
+                    }
+                    response = GhostSpectator.instance.Translation.RemovedRole;
+                    return true;
                 }
-                response = "Removed role!";
-                return true;
+
             }
-            response = "This command cannot be sent through the console at the moment!";
-            return false;
+            throw new NullReferenceException("The player was null!");
         }
     }
 }

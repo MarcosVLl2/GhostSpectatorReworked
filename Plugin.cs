@@ -7,7 +7,7 @@ using Exiled.CustomRoles.API.Features;
 
 namespace GhostSpectatorReworked
 {
-    public class GhostSpectator : Plugin<Config>
+    public class GhostSpectator : Plugin<Config, Translation>
     {
         public List<Player> GhostSpectatorList = new();
         public static GhostSpectator instance { get; private set; }
@@ -29,7 +29,6 @@ namespace GhostSpectatorReworked
         }
         private void RegisterEvents()
         {
-            Exiled.Events.Handlers.Player.ChangingRole += Eventhandler.OnChangingRole;
             Exiled.Events.Handlers.Warhead.Detonated += Eventhandler.OnWarheadDetonated;
             Exiled.Events.Handlers.Map.Decontaminating += Eventhandler.OnLightDecontamination;
             CustomRole.RegisterRoles(overrideClass: new Roles());
@@ -37,13 +36,12 @@ namespace GhostSpectatorReworked
         private void UnregisterEvents()
         {
             CustomRole.UnregisterRoles();
-            Exiled.Events.Handlers.Player.ChangingRole -= Eventhandler.OnChangingRole;
             Exiled.Events.Handlers.Warhead.Detonated -= Eventhandler.OnWarheadDetonated;
             Exiled.Events.Handlers.Map.Decontaminating -= Eventhandler.OnLightDecontamination;
         }
         public override string Name => "GhostSpectatorReworked";
         public override string Author => "MarcosVLl2";
-        public override Version Version { get; } = new Version(0, 0, 13);
+        public override Version Version { get; } = new Version(1, 0, 0);
         public override Version RequiredExiledVersion { get; } = new Version(5, 3, 0);
     }
 }

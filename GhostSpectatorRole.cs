@@ -22,7 +22,7 @@ namespace GhostSpectatorReworked
         public RoleType VisibleRole { get; set; } = RoleType.Tutorial;
         public override int MaxHealth { get; set; } = 65535;
         public override string Name { get; set; } = "GhostSpectator";
-        public override string Description { get; set; } = "GhostSpectator, better spectator in 1st person";
+        public override string Description { get; set; } = GhostSpectator.instance.Translation.GHSpecRoleDescription;
         public override string CustomInfo { get; set; } = "GhostSpectator";
         public override bool KeepInventoryOnSpawn { get; set; } = false;
         public float MovementMultiplier { get; set; } = 2.5f;

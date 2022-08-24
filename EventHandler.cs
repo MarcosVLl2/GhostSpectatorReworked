@@ -9,10 +9,6 @@ namespace GhostSpectatorReworked
     {
         
         private static readonly Config config = GhostSpectator.instance.Config;
-        public void OnChangingRole(ChangingRoleEventArgs ev)
-        {
-
-        }
         public void OnWarheadDetonated()
         {
             GhostSpectator.instance.GhostSpectatorList.ForEach(e =>

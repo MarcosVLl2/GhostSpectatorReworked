@@ -1,4 +1,5 @@
 using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 using Exiled.CustomRoles;
 using CommandSystem;
 using Exiled.API.Features.Items;
@@ -13,43 +14,47 @@ namespace GhostSpectatorReworked.Commands.Subcommands
 
         public string[] Aliases { get; } = Array.Empty<string>();
 
-        public string Description { get; } = "Toggles Noclip for the GhostSpectator.";
+        public string Description { get; } = GhostSpectator.instance.Translation.NoclipCommandDescription;
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
             if (player != null)
             {
-                if (CustomRoleHandler.Get(99).Check(player))
+                if (!sender.CheckPermission("ghsp.noclip"))
                 {
-                    string? onoroff = arguments.At(0);
-                    if(onoroff != null)
+                    if (CustomRoleHandler.Get(99).Check(player))
                     {
-                        if(onoroff == "on")
+                        string? onoroff = arguments.At(0);
+                        if (onoroff != null)
                         {
-                            player.NoClipEnabled = true;
-                            player.Broadcast(new Exiled.API.Features.Broadcast("Noclip enabled", 5, true), false);
-                            response = "Noclip enabled";
-                            return true;
+                            if (onoroff == "on")
+                            {
+                                player.NoClipEnabled = true;
+                                player.Broadcast(new Exiled.API.Features.Broadcast(GhostSpectator.instance.Translation.NoclipOn, 5, true), false);
+                                response = "Noclip enabled";
+                                return true;
+                            }
+                            else if (onoroff == "off")
+                            {
+                                player.NoClipEnabled = false;
+                                player.Broadcast(new Exiled.API.Features.Broadcast(GhostSpectator.instance.Translation.NoclipOff, 5, true), false);
+                                response = "Noclip disabled";
+                                return true;
+                            }
+                            response = GhostSpectator.instance.Translation.NoclipArgNotValid;
+                            return false;
                         }
-                        else if(onoroff == "off")
-                        {
-                            player.NoClipEnabled = false;
-                            player.Broadcast(new Exiled.API.Features.Broadcast("Noclip enabled", 5, true), false);
-                            response = "Noclip disabled";
-                            return true;
-                        }
-                        response = "That is not a valid argument";
+                        response = GhostSpectator.instance.Translation.NoclipArgNotValid;
                         return false;
                     }
-                    response = "Unexpected error occurred";
+                    response = GhostSpectator.instance.Translation.NotGhostSpectatorRole;
                     return false;
                 }
-                response = "You are not in GhostSpectator mode!";
+                response = GhostSpectator.instance.Translation.NotEnoughPerms;
                 return false;
             }
-            response = "This command cannot be sent through the console at the moment!";
-            return false;
+            throw new NullReferenceException("The player was null!");
         }
     }
 }

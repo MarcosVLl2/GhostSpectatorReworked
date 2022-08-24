@@ -20,12 +20,13 @@ namespace GhostSpectatorReworked.Commands
             RegisterCommand(new GhostCommand());
             RegisterCommand(new GhostNoclipCommand());
             RegisterCommand(new TeleportToCommand());
+            RegisterCommand(new TeleportToPlayerCommand());
             RegisterCommand(new SpectatorCommand());
         }
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            response = "Please, specify a sub command: ghost, spectator, teleportto, ghnoclip";
+            response = "Please, specify a sub command: ghost, spectator, teleportto, teleporttoplayer, ghnoclip";
             return true;
         }
     }
