@@ -296,46 +296,7 @@ namespace GhostSpectatorReworked
         }
         private void OnRespawningTeam(RespawningTeamEventArgs ev)
         {
-            List<Player> templist;
-            int maxntf = GameCore.ConfigFile.ServerConfig.GetInt("maximum_MTF_respawn_amount"), maxci = GameCore.ConfigFile.ServerConfig.GetInt("maximum_CI_respawn_amount");
-            templist = ev.Players;
-            ev.Players.Clear();
-            if (ev.NextKnownTeam == Respawning.SpawnableTeamType.ChaosInsurgency)
-            {
-                foreach (Player ply in GhostSpectator.instance.GhostSpectatorList)
-                {
-                    if (ev.Players.Count < maxci)
-                    {
-                        ev.Players.Add(ply);
-                        GhostSpectator.instance.GhostSpectatorList.Remove(ply);
-                        RemoveRole(ply);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                templist.Reverse(); templist.RemoveRange(maxci - ev.Players.Count, templist.Count - maxci - ev.Players.Count); templist.Reverse();
-                ev.Players.AddRange(templist);
-            }
-            if (ev.NextKnownTeam == Respawning.SpawnableTeamType.NineTailedFox)
-            {
-                foreach (Player ply in GhostSpectator.instance.GhostSpectatorList)
-                {
-                    if (ev.Players.Count < maxntf)
-                    {
-                        ev.Players.Add(ply);
-                        GhostSpectator.instance.GhostSpectatorList.Remove(ply);
-                        RemoveRole(ply);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                templist.Reverse(); templist.RemoveRange(0, maxntf - ev.Players.Count); templist.Reverse();
-                ev.Players.AddRange(templist);
-            }
+            ev.Players.AddRange(GhostSpectator.instance.GhostSpectatorList)
         }
 
 
